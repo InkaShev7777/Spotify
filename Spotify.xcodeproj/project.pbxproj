@@ -32,6 +32,8 @@
 		C1A9E4CE2B344C5700375C95 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E4CD2B344C5700375C95 /* HomeViewController.swift */; };
 		C1A9E4D32B344C5700375C95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1A9E4D22B344C5700375C95 /* Assets.xcassets */; };
 		C1A9E4D62B344C5700375C95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1A9E4D42B344C5700375C95 /* LaunchScreen.storyboard */; };
+		C1BC2ECE2B36316100947B8D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC2ECD2B36316100947B8D /* SDWebImage */; };
+		C1BC2ED02B36316100947B8D /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC2ECF2B36316100947B8D /* SDWebImageMapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1BC2ED02B36316100947B8D /* SDWebImageMapKit in Frameworks */,
+				C1BC2ECE2B36316100947B8D /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +208,10 @@
 			dependencies = (
 			);
 			name = Spotify;
+			packageProductDependencies = (
+				C1BC2ECD2B36316100947B8D /* SDWebImage */,
+				C1BC2ECF2B36316100947B8D /* SDWebImageMapKit */,
+			);
 			productName = Spotify;
 			productReference = C1A9E4C62B344C5700375C95 /* Spotify.app */;
 			productType = "com.apple.product-type.application";
@@ -232,6 +240,9 @@
 				Base,
 			);
 			mainGroup = C1A9E4BD2B344C5700375C95;
+			packageReferences = (
+				C1BC2ECC2B36316100947B8D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = C1A9E4C72B344C5700375C95 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -431,6 +442,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -443,7 +455,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -461,6 +473,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,7 +486,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -499,6 +512,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C1BC2ECC2B36316100947B8D /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.18.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C1BC2ECD2B36316100947B8D /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1BC2ECC2B36316100947B8D /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		C1BC2ECF2B36316100947B8D /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1BC2ECC2B36316100947B8D /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C1A9E4BE2B344C5700375C95 /* Project object */;
 }
