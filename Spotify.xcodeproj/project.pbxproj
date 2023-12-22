@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C13CA5712B35D08B00B6571A /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CA5702B35D08B00B6571A /* AuthResponse.swift */; };
 		C140623D2B34533D00ADE9FC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140623C2B34533D00ADE9FC /* TabBarViewController.swift */; };
 		C140623F2B3454C600ADE9FC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140623E2B3454C600ADE9FC /* SearchViewController.swift */; };
 		C14062412B3454F400ADE9FC /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14062402B3454F400ADE9FC /* LibraryViewController.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C13CA5702B35D08B00B6571A /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		C140623C2B34533D00ADE9FC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C140623E2B3454C600ADE9FC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C14062402B3454F400ADE9FC /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				C140625A2B34575500ADE9FC /* AudioTrack.swift */,
 				C140625C2B34576D00ADE9FC /* Artist.swift */,
 				C140625E2B34578600ADE9FC /* UserProfile.swift */,
+				C13CA5702B35D08B00B6571A /* AuthResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				C140623D2B34533D00ADE9FC /* TabBarViewController.swift in Sources */,
 				C14062572B3456E400ADE9FC /* HapticsManager.swift in Sources */,
 				C1A9E4CE2B344C5700375C95 /* HomeViewController.swift in Sources */,
+				C13CA5712B35D08B00B6571A /* AuthResponse.swift in Sources */,
 				C140625B2B34575500ADE9FC /* AudioTrack.swift in Sources */,
 				C14062452B3455AC00ADE9FC /* AuthViewController.swift in Sources */,
 				C14062592B34570C00ADE9FC /* PlayList.swift in Sources */,
@@ -414,6 +418,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -443,6 +448,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
