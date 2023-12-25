@@ -11,6 +11,7 @@
 		C120E2322B399703007149D7 /* APIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C120E2312B399703007149D7 /* APIImage.swift */; };
 		C120E2342B399F57007149D7 /* FeaturedPlayListsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C120E2332B399F57007149D7 /* FeaturedPlayListsResponse.swift */; };
 		C120E2362B39A5CC007149D7 /* RecommendedGenresResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C120E2352B39A5CC007149D7 /* RecommendedGenresResponse.swift */; };
+		C120E2382B39D07D007149D7 /* RecommendationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C120E2372B39D07D007149D7 /* RecommendationsResponse.swift */; };
 		C13CA5712B35D08B00B6571A /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CA5702B35D08B00B6571A /* AuthResponse.swift */; };
 		C13CA5732B35F83300B6571A /* SettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CA5722B35F83300B6571A /* SettingsModels.swift */; };
 		C140623D2B34533D00ADE9FC /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140623C2B34533D00ADE9FC /* TabBarViewController.swift */; };
@@ -45,6 +46,7 @@
 		C120E2312B399703007149D7 /* APIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIImage.swift; sourceTree = "<group>"; };
 		C120E2332B399F57007149D7 /* FeaturedPlayListsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedPlayListsResponse.swift; sourceTree = "<group>"; };
 		C120E2352B39A5CC007149D7 /* RecommendedGenresResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedGenresResponse.swift; sourceTree = "<group>"; };
+		C120E2372B39D07D007149D7 /* RecommendationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationsResponse.swift; sourceTree = "<group>"; };
 		C13CA5702B35D08B00B6571A /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		C13CA5722B35F83300B6571A /* SettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModels.swift; sourceTree = "<group>"; };
 		C140623C2B34533D00ADE9FC /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				C120E2312B399703007149D7 /* APIImage.swift */,
 				C120E2332B399F57007149D7 /* FeaturedPlayListsResponse.swift */,
 				C120E2352B39A5CC007149D7 /* RecommendedGenresResponse.swift */,
+				C120E2372B39D07D007149D7 /* RecommendationsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				C13CA5712B35D08B00B6571A /* AuthResponse.swift in Sources */,
 				C120E2302B3994F0007149D7 /* NewReleasesResponse.swift in Sources */,
 				C120E2322B399703007149D7 /* APIImage.swift in Sources */,
+				C120E2382B39D07D007149D7 /* RecommendationsResponse.swift in Sources */,
 				C140625B2B34575500ADE9FC /* AudioTrack.swift in Sources */,
 				C14062452B3455AC00ADE9FC /* AuthViewController.swift in Sources */,
 				C14062592B34570C00ADE9FC /* PlayList.swift in Sources */,

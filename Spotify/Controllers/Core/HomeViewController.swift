@@ -35,6 +35,8 @@ class HomeViewController: UIViewController {
             case.failure(let error): break
             }
         }
+        
+        
 //        APICaller.shared.getNewReleasses { result in
 //            switch result {
 //            case .success(let model): break
