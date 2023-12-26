@@ -35,6 +35,7 @@
 		C140625D2B34576D00ADE9FC /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140625C2B34576D00ADE9FC /* Artist.swift */; };
 		C140625F2B34578600ADE9FC /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140625E2B34578600ADE9FC /* UserProfile.swift */; };
 		C150D7872B34940E00E61174 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C150D7862B34940E00E61174 /* Extensions.swift */; };
+		C16A7F622B3ADFA40015C217 /* NewReleasesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16A7F612B3ADFA40015C217 /* NewReleasesCellViewModel.swift */; };
 		C1A9E4CA2B344C5700375C95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E4C92B344C5700375C95 /* AppDelegate.swift */; };
 		C1A9E4CC2B344C5700375C95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E4CB2B344C5700375C95 /* SceneDelegate.swift */; };
 		C1A9E4CE2B344C5700375C95 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E4CD2B344C5700375C95 /* HomeViewController.swift */; };
@@ -73,6 +74,7 @@
 		C140625C2B34576D00ADE9FC /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		C140625E2B34578600ADE9FC /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		C150D7862B34940E00E61174 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C16A7F612B3ADFA40015C217 /* NewReleasesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleasesCellViewModel.swift; sourceTree = "<group>"; };
 		C1A9E4C62B344C5700375C95 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A9E4C92B344C5700375C95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1A9E4CB2B344C5700375C95 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		C11690042B344D5C00D83986 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C16A7F612B3ADFA40015C217 /* NewReleasesCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				C140623F2B3454C600ADE9FC /* SearchViewController.swift in Sources */,
 				C14062532B3456A200ADE9FC /* AuthManager.swift in Sources */,
 				C14062512B34565C00ADE9FC /* SearchResultsViewController.swift in Sources */,
+				C16A7F622B3ADFA40015C217 /* NewReleasesCellViewModel.swift in Sources */,
 				C120E23D2B39EAFA007149D7 /* FeaturePlaylistCollectionViewCell.swift in Sources */,
 				C14062472B3455CB00ADE9FC /* WelcomeViewController.swift in Sources */,
 				C140624B2B34560300ADE9FC /* ProfileViewController.swift in Sources */,
