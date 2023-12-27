@@ -47,7 +47,7 @@ final class AuthManager{
             return false
         }
         let currentDate = Date()
-        let fiveMinutes: TimeInterval = 300
+        let fiveMinutes: TimeInterval = 600
         return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
     

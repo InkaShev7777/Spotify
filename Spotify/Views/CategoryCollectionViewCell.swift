@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SDWebImage
 
-class GenreCollectionViewCell: UICollectionViewCell {
+class CategoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "GenreCollectionViewCell"
     
     private let imageView: UIImageView = {
@@ -53,18 +54,23 @@ class GenreCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         label.text = nil
-        
+        imageView.image = UIImage(systemName: "music.note", withConfiguration:
+                                    UIImage.SymbolConfiguration(pointSize: 50, weight: .regular))
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        label.frame = CGRect(x: 10, y: contentView.height/2, width: contentView.width-20, height: contentView.height/2)
-        imageView.frame = CGRect(x: contentView.width/2, y: 0, width: contentView.width/2, height: contentView.height/2)
+        label.frame = CGRect(x: 10, y: 2, width: contentView.width-20, height: contentView.height/2)
+        imageView.frame = CGRect(x: contentView.width / 2, y: contentView.height / 2, width: contentView.width / 2, height: contentView.height / 2)
+//        imageView.transform =  imageView.transform.rotated(by: 0.4)
+//        imageView.layer.cornerRadius = 20
+//        imageView.clipsToBounds = true
     }
     
-    func configure(with title: String) {
-        label.text = title
+    func configure(with viewModel: CategoryCollectionViewCellViewModel) {
+        label.text = viewModel.title
+        imageView.sd_setImage(with: viewModel.artworkURL, completed: nil)
         contentView.backgroundColor = colors.randomElement()
     }
 }
