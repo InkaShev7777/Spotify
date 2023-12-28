@@ -170,7 +170,74 @@ final class APICaller {
         }
     }
     
-    // MARK: -Private
+    // MARK: - Category
+    
+    public func getCategory(completion: @escaping (Result<[Category], Error>) -> Void) {
+        createRequest(with: URL(string: Constens.baseAPIURL + "/browse/categories?limit=50"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data,error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do{
+                    let result =  try JSONDecoder().decode(AllCategoriesResponse.self, from: data)
+                    completion(.success(result.categories.items))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func getCategoryPlaylists(category: Category, completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        createRequest(with: URL(string: Constens.baseAPIURL + "/browse/categories/\(category.id)/playlists/?limit=50"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data,error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do{
+                    let result =  try JSONDecoder().decode(CategoryPlaylistsResponse.self, from: data)
+                    let playlist = result.playlists.items
+                    completion(.success(playlist))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Search
+    
+    public func search(with query: String, completion: @escaping (Result<[String], Error>) -> Void){
+        createRequest(with: URL(string: Constens.baseAPIURL+"/search?limit=10&type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"), type: .GET)
+        {   request in
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data,error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do{
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    print(json)
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Private
     
     enum HTTPMethod: String{
         case GET
@@ -184,8 +251,8 @@ final class APICaller {
             }
             var request = URLRequest(url: apiURL)
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            request.timeoutInterval = 80
             request.httpMethod = type.rawValue
-            request.timeoutInterval = 60
             completion(request)
         }
     }
