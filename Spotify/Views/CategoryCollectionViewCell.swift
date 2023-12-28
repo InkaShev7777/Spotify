@@ -62,10 +62,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         label.frame = CGRect(x: 10, y: 2, width: contentView.width-20, height: contentView.height/2)
-        imageView.frame = CGRect(x: contentView.width / 2, y: contentView.height / 2, width: contentView.width / 2, height: contentView.height / 2)
-//        imageView.transform =  imageView.transform.rotated(by: 0.4)
-//        imageView.layer.cornerRadius = 20
-//        imageView.clipsToBounds = true
+        imageView.frame = CGRect(x: contentView.width - 70, y: contentView.height - 70, width: contentView.width / 2, height: contentView.height / 2)
     }
     
     func configure(with viewModel: CategoryCollectionViewCellViewModel) {
