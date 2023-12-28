@@ -70,7 +70,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func configure(with viewModel: CategoryCollectionViewCellViewModel) {
         label.text = viewModel.title
         if viewModel.title == "Party"{
-            imageView.sd_setImage(with: URL(string: "https://t.scdn.co/media/derived/r-b-274x274_fd56efa72f4f63764b011b68121581d8_0_0_274_274.jpg"), completed: nil)
+            imageView.sd_setImage(
+                with:URL(string: "https://t.scdn.co/media/derived/r-b-274x274_fd56efa72f4f63764b011b68121581d8_0_0_274_274.jpg"), completed: nil
+            )
         }
         else{
             imageView.sd_setImage(with: viewModel.artworkURL, completed: nil)
