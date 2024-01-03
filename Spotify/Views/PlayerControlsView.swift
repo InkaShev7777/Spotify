@@ -28,7 +28,7 @@ final class PlayerControlsView: UIView {
     
     private let volumeSlider: UISlider = {
         let slider = UISlider()
-        slider.value = 0.5
+        slider.value = 1.0
         return slider
     }()
     
@@ -108,8 +108,7 @@ final class PlayerControlsView: UIView {
     }
     
     @objc func didSlideSlider(_ slider: UISlider) {
-        let value = slider.value
-        delegate?.playerControlsView(self, didSlideSlider: value)
+        delegate?.playerControlsView(self, didSlideSlider: slider.value)
     }
     
     @objc private func didTapBack(){

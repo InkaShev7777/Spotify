@@ -48,7 +48,7 @@ final class PlaybackPresenter {
             return
         }
         player = AVPlayer(url: url)
-        player?.volume = 0.2
+        player?.volume = 1.0
         
         self.track = track
         self.tracks = []
@@ -74,7 +74,7 @@ final class PlaybackPresenter {
             }
             return AVPlayerItem(url: url)
         }))
-        self.playerQueue?.volume = 0.2
+        self.playerQueue?.volume = 1.0
         self.playerQueue?.play()
         
         let vc = PlayerViewController()
@@ -89,6 +89,7 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
     
     func didSlideSlider(_ value: Float) {
         player?.volume = value
+        playerQueue?.volume = value
     }
     
     func didTapPlayPause() {
@@ -142,7 +143,6 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
                 playerQueue?.replaceCurrentItem(with: AVPlayerItem(url: url))
                 playerVC?.refreshUI()
             }
-            print("Backward: \(indexTrackNow)")
         }
     }
 }
