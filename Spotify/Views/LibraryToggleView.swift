@@ -63,7 +63,6 @@ class LibraryToggleView: UIView {
     }
     
     @objc private func didTapPlaylists() {
-        state = .playlist
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }
@@ -71,7 +70,6 @@ class LibraryToggleView: UIView {
     }
     
     @objc private func didTapAlbums() {
-        state = .album
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }

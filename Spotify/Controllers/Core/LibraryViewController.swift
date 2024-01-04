@@ -62,7 +62,7 @@ class LibraryViewController: UIViewController {
 
 extension LibraryViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x >= (view.width-100) {
+        if scrollView.contentOffset.x >= (view.width-50) {
             toggleView.update(for: .album)
         }
         else {

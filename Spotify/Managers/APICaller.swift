@@ -251,11 +251,10 @@ final class APICaller {
                     return
                 }
                 do{
-                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    print(json)
+                    let result = try JSONDecoder().decode(LibraryPlaylistsResponse.self, from: data)
+                    completion(.success(result.items))
                 }
                 catch{
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -264,7 +263,41 @@ final class APICaller {
     }
     
     public func createPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
-        
+        getCurrentUserProfile { [ weak self ] result in
+            switch result {
+            case .success(let profile):
+                let urlString = Constens.baseAPIURL + "/users/\(profile.id)/playlists"
+                
+                self?.createRequest(with: URL(string: urlString), type: .POST) { baseRequest in
+                    var request = baseRequest
+                    let json = [
+                        "name": name,
+                        "description": "New playlist description",
+                        "public": false
+                    ]
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                        guard let data = data, error == nil else {
+                            completion(false)
+                            return
+                        }
+                        
+                        do{
+                            let result = try JSONDecoder().decode(Playlist.self, from: data)
+                            print(result)
+                            completion(true)
+                        }
+                        catch{
+                            print(error.localizedDescription)
+                            completion(false)
+                        }
+                    }
+                    task.resume()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     public func addTrackToPlaylist(track: AudioTrack, playlist: Playlist, completion: @escaping (Bool) -> Void) {
