@@ -27,8 +27,8 @@ class LibraryToggleView: UIView {
         let button = UIButton()
         button.setTitleColor(.label, for: .normal)
         button.setTitle("Playlists", for: .normal)
-        button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
+        button.backgroundColor = .opaqueSeparator
         return button
     }()
     
@@ -36,8 +36,8 @@ class LibraryToggleView: UIView {
         let button = UIButton()
         button.setTitleColor(.label, for: .normal)
         button.setTitle("Albums", for: .normal)
-        button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
+        button.backgroundColor = .opaqueSeparator
         return button
     }()
     
@@ -45,7 +45,7 @@ class LibraryToggleView: UIView {
         let view = UIView()
         view.backgroundColor = .systemGreen
         view.layer.masksToBounds = true
-        view.layer.cornerRadius = 4
+        view.layer.cornerRadius = 2
         return view
     }()
     
@@ -53,7 +53,7 @@ class LibraryToggleView: UIView {
         super.init(frame: frame)
         addSubview(playlistButton)
         addSubview(albumsButton)
-        addSubview(indicatorView)
+//        addSubview(indicatorView)
         playlistButton.addTarget(self, action: #selector(didTapPlaylists), for: .touchUpInside)
         albumsButton.addTarget(self, action: #selector(didTapAlbums), for: .touchUpInside)
     }
@@ -63,7 +63,6 @@ class LibraryToggleView: UIView {
     }
     
     @objc private func didTapPlaylists() {
-        state = .playlist
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }
@@ -71,7 +70,6 @@ class LibraryToggleView: UIView {
     }
     
     @objc private func didTapAlbums() {
-        state = .album
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
         }
@@ -88,19 +86,23 @@ class LibraryToggleView: UIView {
     private func layoutIndicator() {
         switch state {
         case .playlist:
-            indicatorView.frame = CGRect(
-                x: 5,
-                y: playlistButton.bottom+1,
-                width: 100,
-                height: 3
-            )
+            playlistButton.backgroundColor = .systemGreen
+            albumsButton.backgroundColor = .opaqueSeparator
+//            indicatorView.frame = CGRect(
+//                x: 5,
+//                y: playlistButton.bottom+1,
+//                width: 100,
+//                height: 3
+//            )
         case .album:
-            indicatorView.frame = CGRect(
-                x: playlistButton.right+5,
-                y: albumsButton.bottom+1,
-                width: 100,
-                height: 3
-            )
+            albumsButton.backgroundColor = .systemGreen
+            playlistButton.backgroundColor = .opaqueSeparator
+//            indicatorView.frame = CGRect(
+//                x: playlistButton.right+5,
+//                y: albumsButton.bottom+1,
+//                width: 100,
+//                height: 3
+//            )
         }
     }
     
