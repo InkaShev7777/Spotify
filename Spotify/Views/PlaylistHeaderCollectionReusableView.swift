@@ -26,7 +26,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     private let descriptonLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 0
         return label
     }()
@@ -85,10 +85,10 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         let imageSize: CGFloat = height/1.5
         imageView.frame = CGRect(x: (width-imageSize)/2, y: 20, width: imageSize, height: imageSize)
         nameLabel.frame = CGRect(x: 10, y: imageView.bottom, width: width-20, height: 44)
-        descriptonLabel.frame = CGRect(x: 10, y: nameLabel.bottom, width: width-20, height: 44)
+        descriptonLabel.frame = CGRect(x: 10, y: nameLabel.bottom, width: width-100, height: 44)
         ownerLabel.frame = CGRect(x: 10, y: descriptonLabel.bottom, width: width-20, height: 44)
         
-        playAllButton.frame = CGRect(x: height-80, y: height-80, width: 60, height: 60)
+        playAllButton.frame = CGRect(x: height-75, y: height-80, width: 60, height: 60)
     }
     
     func configure(with viewModel: PlaylistHeaderViewViewModel){

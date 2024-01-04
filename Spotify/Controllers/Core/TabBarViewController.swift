@@ -34,7 +34,7 @@ class TabBarViewController: UITabBarController {
         
         navHome.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 1)
         navSearch.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
-        navLibrary.tabBarItem = UITabBarItem(title: "Your Library", image: UIImage(systemName: "book"), tag: 3)
+        navLibrary.tabBarItem = UITabBarItem(title: "Your Library", image: UIImage(systemName: "books.vertical"), tag: 3)
         
         navHome.navigationBar.prefersLargeTitles = true
         navSearch.navigationBar.prefersLargeTitles = true
