@@ -14,4 +14,5 @@ struct Playlist: Codable {
     let images: [APIImage]
     let name: String
     let owner: User
+    let snapshot_id: String
 }

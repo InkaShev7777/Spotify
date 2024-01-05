@@ -117,7 +117,7 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
             player?.pause()
         }
         else if let player = playerQueue {
-            if indexTrackNow < tracks.count{
+            if indexTrackNow < tracks.count-1{
                 indexTrackNow += 1
                 guard let url = URL(string: tracks[indexTrackNow].preview_url ?? "") else {
                     return
