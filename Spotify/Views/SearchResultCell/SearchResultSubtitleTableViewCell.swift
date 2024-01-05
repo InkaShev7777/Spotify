@@ -27,8 +27,8 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     
     private let iconImageView: UIImageView = {
         let iconImageView = UIImageView()
-        iconImageView.contentMode = .scaleAspectFill
-        iconImageView.tintColor = .opaqueSeparator
+//        iconImageView.contentMode = .scaleAspectFill
+        iconImageView.tintColor = .systemGray
         return iconImageView
     }()
     
@@ -79,8 +79,9 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
         subtitleLabel.text = viewModel.subtitle
         iconImageView.sd_setImage(
             with: viewModel.imageURL,
-            placeholderImage: UIImage(systemName: "rectangle.stack.fill"),
+            placeholderImage: UIImage(systemName: "music.note"),
             completed: nil
         )
+        iconImageView.backgroundColor = .opaqueSeparator
     }
 }

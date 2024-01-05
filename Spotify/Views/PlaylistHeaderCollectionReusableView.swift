@@ -40,8 +40,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(systemName: "photo")
+        imageView.image = UIImage(systemName: "music.note")
         return imageView
     }()
     
@@ -95,6 +94,15 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         nameLabel.text = viewModel.name
         ownerLabel.text = viewModel.ownerName
         descriptonLabel.text = viewModel.description
-        imageView.sd_setImage(with: viewModel.artworkURL, completed: nil)
+        imageView.sd_setImage(
+            with: viewModel.artworkURL,
+            placeholderImage: UIImage(
+                systemName: "music.note",
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 5)
+            ),
+            completed: nil
+        )
+        imageView.backgroundColor = .opaqueSeparator
+        imageView.tintColor = .systemGray
     }
 }
