@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         view.addSubview(spinner)
         fetchData()
+        addLongTapGester()
     }
     
     
@@ -61,6 +62,46 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
         
+    }
+    
+    private func addLongTapGester() {
+        let gester = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.isUserInteractionEnabled = true
+        collectionView.addGestureRecognizer(gester)
+    }
+    
+    @objc func didLongPress(_ gester: UILongPressGestureRecognizer) {
+        guard gester.state == .began else {
+            return
+        }
+        
+        let touchPoint = gester.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint), indexPath.section == 2 else {
+            return
+        }
+        
+        let model = tracks[indexPath.row]
+        
+        let actionSheet = UIAlertController(
+            title: model.name,
+            message: "Would you like to add this to a playlist?",
+            preferredStyle: .actionSheet
+        )
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Add to Playlist", style: .default, handler: { [ weak self ] _ in
+            DispatchQueue.main.async {
+                let vc  = LibraryPlaylistsViewController()
+                vc.selectionHendlet = { playlist in
+                    APICaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
+                        print("Add to playlist: \(success)")
+                    }
+                }
+                vc.title = "Select Playlist"
+                self?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            }
+        }))
+        
+        present(actionSheet, animated: true)
     }
     
     private func configureCollectionView() {
