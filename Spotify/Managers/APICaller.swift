@@ -44,6 +44,62 @@ final class APICaller {
         }
     }
     
+    public func getCurrentUserAlbums(completion: @escaping (Result<[Album], Error>) -> Void) {
+        createRequest(with: URL(string: Constens.baseAPIURL + "/me/albums?limit=50"), type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do{
+                    let result = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
+//                    JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
+                    //JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    print(result)
+                    completion(.success(result.items.compactMap({ $0.album })))
+                }
+                catch{
+                    completion(.failure(error))
+                    print(error)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func saveAlbum(album: Album, complition: @escaping (Bool) -> Void) {
+        createRequest(with: URL(string: Constens.baseAPIURL + "/me/albums"), type: .PUT) { baseRequest in
+            var request = baseRequest
+            let json = [
+                "ids": [
+                    album.id
+                ]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data,
+                      let code = (response as? HTTPURLResponse)?.statusCode,
+                      error == nil else {
+                    complition(false)
+                    return
+                }
+                print("Code: \(code)")
+                complition(code == 200)
+//                do{
+//                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+//                    complition(true)
+//                    print(result)
+//                }
+//                catch {
+//                    complition(false)
+//                }
+            }
+            task.resume()
+        }
+    }
+    
     //MARK: - Playlists
     
     public func getPlaylistDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void) {
@@ -386,6 +442,7 @@ final class APICaller {
         case GET
         case POST
         case DELETE
+        case PUT
     }
     
     private func createRequest(with url: URL?,type:HTTPMethod, completion: @escaping (URLRequest) -> Void){
