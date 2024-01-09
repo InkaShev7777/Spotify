@@ -54,9 +54,6 @@ final class APICaller {
                 
                 do{
                     let result = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
-//                    JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
-                    //JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    print(result)
                     completion(.success(result.items.compactMap({ $0.album })))
                 }
                 catch{
@@ -85,16 +82,7 @@ final class APICaller {
                     complition(false)
                     return
                 }
-                print("Code: \(code)")
                 complition(code == 200)
-//                do{
-//                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-//                    complition(true)
-//                    print(result)
-//                }
-//                catch {
-//                    complition(false)
-//                }
             }
             task.resume()
         }
