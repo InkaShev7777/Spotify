@@ -14,7 +14,7 @@ protocol PlayerDataSource: AnyObject {
     var subtitle: String? { get }
     var imageURL: URL? { get }
     //
-    var fullTime: Float? { get }
+    var timeNow: Any? {get}
 }
 
 final class PlaybackPresenter {
@@ -41,8 +41,6 @@ final class PlaybackPresenter {
     
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
-    //
-    var fullTime: Float?
     
     
     func startPlayback(from viewController: UIViewController, track: AudioTrack) {
@@ -51,6 +49,7 @@ final class PlaybackPresenter {
                 tempPlayer.pause()
             }
         }
+        playerQueue = nil
         guard let url = URL(string: track.preview_url ?? "") else {
             return
         }
@@ -66,13 +65,26 @@ final class PlaybackPresenter {
         
         viewController.present(UINavigationController(rootViewController: vc), animated: true) { [ weak self ] in
             self?.player?.play()
-//            guard let duration = self?.player?.currentItem?.duration else{return}
-//            let time = CMTimeGetSeconds(duration)
-//            self?.fullTime = Float(time)
+//            self?.updateSlider()
         }
         self.playerVC = vc
     }
     
+    private var timeObserver: Any?
+    private var _timeNow: Any?
+    func updateSlider() {
+        let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+            guard let currentTime = self.player?.currentTime() else {return}
+            guard let duration = self.player?.currentItem?.duration else {return}
+            
+            let currentTimeInSeccond = CMTimeGetSeconds(currentTime)
+            let durationTimeInSeccond = CMTimeGetSeconds(duration)
+            
+            self._timeNow = Float(currentTimeInSeccond/durationTimeInSeccond)
+            print("TimeLine: \(Float(currentTimeInSeccond/durationTimeInSeccond))")
+        })
+    }
     
     func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
         if let tempPlayer = player{
@@ -80,6 +92,7 @@ final class PlaybackPresenter {
                 tempPlayer.pause()
             }
         }
+        player = nil
         indexTrackNow = 0
         self.tracks = tracks
         self.track = nil
@@ -130,7 +143,6 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
     
     func didTapForward() {
         if tracks.isEmpty{
-            // Not playlist or album
             player?.pause()
         }
         else if let player = playerQueue {
@@ -165,6 +177,10 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
 }
 
 extension PlaybackPresenter: PlayerDataSource {
+    var timeNow: Any? {
+        return self._timeNow
+    }
+    
     
     var songName: String? {
         return currentTrack?.name

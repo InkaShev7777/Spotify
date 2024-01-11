@@ -75,6 +75,7 @@ class PlayerViewController: UIViewController {
             title: dataSource?.songName,
             subtitle: dataSource?.subtitle)
         )
+        print(dataSource?.timeNow)
     }
     
     private func configureBarButtons() {
@@ -99,7 +100,6 @@ class PlayerViewController: UIViewController {
     
     @objc private func didTapAction() {
         // Actions
-        print("Time: \(dataSource?.fullTime)")
     }
     
     func refreshUI(){
