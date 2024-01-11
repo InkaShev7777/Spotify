@@ -20,9 +20,24 @@ class PlayerViewController: UIViewController {
     weak var dataSource: PlayerDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    private let backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.opacity = 0.6
+        return imageView
+    }()
+    
+    private let blurEffectView: UIVisualEffectView = {
+        let effect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.dark))
+        effect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return effect
+    }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 15
         return imageView
     }()
     
@@ -31,6 +46,8 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        view.addSubview(backgroundImage)
+        view.addSubview(blurEffectView)
         view.addSubview(imageView)
         view.addSubview(controlsView)
         controlsView.delegate = self
@@ -40,7 +57,9 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        imageView.frame = CGRect(x: 0, y: 50, width: view.width, height: view.width)
+        backgroundImage.frame = view.bounds
+        blurEffectView.frame = view.bounds
+        imageView.frame = CGRect(x: 30, y: 50, width: view.width-60, height: view.width-50)
         controlsView.frame = CGRect(
             x: 10,
             y: imageView.bottom+10,
@@ -50,6 +69,7 @@ class PlayerViewController: UIViewController {
     }
     
     private func configure() {
+        backgroundImage.sd_setImage(with: dataSource?.imageURL, completed: nil)
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
         controlsView.configure(with: PlayerControlsViewViewModel(
             title: dataSource?.songName,
@@ -70,7 +90,7 @@ class PlayerViewController: UIViewController {
             action: #selector(didTapAction)
         )
         
-        navigationController?.navigationBar.tintColor = .darkGray
+        navigationController?.navigationBar.tintColor = .white
     }
     
     @objc private func didTapClose() {
@@ -79,6 +99,7 @@ class PlayerViewController: UIViewController {
     
     @objc private func didTapAction() {
         // Actions
+        print("Time: \(dataSource?.fullTime)")
     }
     
     func refreshUI(){

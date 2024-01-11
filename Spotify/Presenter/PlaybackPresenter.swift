@@ -13,6 +13,8 @@ protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
     var subtitle: String? { get }
     var imageURL: URL? { get }
+    //
+    var fullTime: Float? { get }
 }
 
 final class PlaybackPresenter {
@@ -21,6 +23,7 @@ final class PlaybackPresenter {
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
+    
     var indexTrackNow = 0
     
     var currentTrack: AudioTrack? {
@@ -28,10 +31,6 @@ final class PlaybackPresenter {
             return track
         }
         else if let player = self.playerQueue, !tracks.isEmpty {
-//            let items = player.items()
-//            guard let index = items.firstIndex(where: { $0 == player.currentItem }) else {
-//                return nil
-//            }
             return tracks[indexTrackNow]
         }
         
@@ -42,8 +41,16 @@ final class PlaybackPresenter {
     
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
+    //
+    var fullTime: Float?
+    
     
     func startPlayback(from viewController: UIViewController, track: AudioTrack) {
+        if let tempPlayer = playerQueue{
+            if tempPlayer.timeControlStatus == .playing{
+                tempPlayer.pause()
+            }
+        }
         guard let url = URL(string: track.preview_url ?? "") else {
             return
         }
@@ -59,11 +66,20 @@ final class PlaybackPresenter {
         
         viewController.present(UINavigationController(rootViewController: vc), animated: true) { [ weak self ] in
             self?.player?.play()
+//            guard let duration = self?.player?.currentItem?.duration else{return}
+//            let time = CMTimeGetSeconds(duration)
+//            self?.fullTime = Float(time)
         }
         self.playerVC = vc
     }
     
+    
     func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
+        if let tempPlayer = player{
+            if tempPlayer.timeControlStatus == .playing{
+                tempPlayer.pause()
+            }
+        }
         indexTrackNow = 0
         self.tracks = tracks
         self.track = nil
@@ -76,6 +92,7 @@ final class PlaybackPresenter {
         }))
         self.playerQueue?.volume = 1.0
         self.playerQueue?.play()
+        
         
         let vc = PlayerViewController()
         vc.dataSource = self
@@ -117,7 +134,7 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
             player?.pause()
         }
         else if let player = playerQueue {
-            if indexTrackNow < tracks.count{
+            if indexTrackNow < tracks.count-1{
                 indexTrackNow += 1
                 guard let url = URL(string: tracks[indexTrackNow].preview_url ?? "") else {
                     return
@@ -160,5 +177,4 @@ extension PlaybackPresenter: PlayerDataSource {
     var imageURL: URL? {
         return URL(string: currentTrack?.album?.images.first?.url ?? "")
     }
-    
 }
