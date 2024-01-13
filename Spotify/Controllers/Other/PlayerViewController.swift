@@ -20,6 +20,8 @@ class PlayerViewController: UIViewController {
     weak var dataSource: PlayerDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    private var isPlaying:Bool = true
+    
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -49,6 +51,7 @@ class PlayerViewController: UIViewController {
         view.addSubview(backgroundImage)
         view.addSubview(blurEffectView)
         view.addSubview(imageView)
+        imageView.frame = CGRect(x: 30, y: 50, width: view.width-60, height: view.width-50)
         view.addSubview(controlsView)
         controlsView.delegate = self
         configureBarButtons()
@@ -59,10 +62,9 @@ class PlayerViewController: UIViewController {
         super.viewDidLayoutSubviews()
         backgroundImage.frame = view.bounds
         blurEffectView.frame = view.bounds
-        imageView.frame = CGRect(x: 30, y: 50, width: view.width-60, height: view.width-50)
         controlsView.frame = CGRect(
             x: 10,
-            y: imageView.bottom+10,
+            y: (view.height/2)+20,
             width: view.width-20,
             height: view.height-imageView.height-view.safeAreaInsets.top-view.safeAreaInsets.bottom-15
         )
@@ -85,21 +87,11 @@ class PlayerViewController: UIViewController {
             action: #selector(didTapClose)
         )
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(didTapAction)
-        )
-        
         navigationController?.navigationBar.tintColor = .white
     }
     
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func didTapAction() {
-        // Actions
     }
     
     func refreshUI(){
@@ -112,6 +104,27 @@ extension PlayerViewController: PlayerControlsViewDelegate {
     func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView) {
         //Play Pause
         delegate?.didTapPlayPause()
+        self.isPlaying = !self.isPlaying
+        if isPlaying {
+            UIView.animate(withDuration: 0.2) {
+                self.imageView.frame = CGRect(
+                    x: 30,
+                    y: 50,
+                    width: self.view.width-60,
+                    height: self.view.width-50
+                )
+            }
+        }
+        else {
+            UIView.animate(withDuration: 0.2) {
+                self.imageView.frame = CGRect(
+                    x: 40,
+                    y: 60,
+                    width: self.view.width-90,
+                    height: self.view.width-90
+                )
+            }
+        }
     }
     
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView) {

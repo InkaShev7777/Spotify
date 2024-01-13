@@ -120,7 +120,7 @@ extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
         HapticsManager.shared.vibrateForSelection()
         let album = albums[indexPath.row]
-        let vc = AlbumViewController(album: album)
+        let vc = SavedAlbumsViewController(album: album)
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
         
