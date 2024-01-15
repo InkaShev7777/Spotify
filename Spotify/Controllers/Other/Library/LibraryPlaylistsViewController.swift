@@ -90,19 +90,19 @@ class LibraryPlaylistsViewController: UIViewController {
             message: "Enter playlist name",
             preferredStyle: .alert
         )
-        alert.addTextField { textField in
-            textField.placeholder = "Playlist..."
+        alert.addTextField { textFieldName in
+            textFieldName.placeholder = "Playlist..."
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Create", style: .default, handler: {_ in
             guard let field = alert.textFields?.first,
-                  let text = field.text,
-                  !text.trimmingCharacters(in: .whitespaces).isEmpty else {
+                  let textName = field.text,
+                  !textName.trimmingCharacters(in: .whitespaces).isEmpty else {
                 return
             }
             
-            APICaller.shared.createPlaylist(with: text) { [ weak self ] success in
+            APICaller.shared.createPlaylist(with: textName) { [ weak self ] success in
                 if success {
                     HapticsManager.shared.vibrate(for: .success)
                     //Refresh list of playlists

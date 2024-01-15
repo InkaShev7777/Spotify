@@ -88,6 +88,29 @@ final class APICaller {
         }
     }
     
+    public func deleteAlbum(album: Album, complition: @escaping (Bool) -> Void){
+        createRequest(with: URL(string: Constens.baseAPIURL+"/me/albums"), type: .DELETE) { baseRequest in
+            var request = baseRequest
+            let json = [
+                "ids": [
+                    album.id
+                ]
+            ]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data,
+                      let code = (response as? HTTPURLResponse)?.statusCode,
+                      error == nil else {
+                    complition(false)
+                    return
+                }
+                complition(code == 200)
+            }
+            task.resume()
+        }
+    }
+    
     //MARK: - Playlists
     
     public func getPlaylistDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void) {
@@ -316,7 +339,7 @@ final class APICaller {
                     var request = baseRequest
                     let json = [
                         "name": name,
-                        "description": "New playlist description",
+                        "description": "My new Playlist",
                         "public": false
                     ]
                     request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
@@ -353,6 +376,8 @@ final class APICaller {
     public func addTrackToPlaylist(track: AudioTrack, playlist: Playlist, completion: @escaping (Bool) -> Void) {
         createRequest(with: URL(string:  Constens.baseAPIURL + "/playlists/\(playlist.id)/tracks"), type: .POST) { baseRequest in
             var request = baseRequest
+            
+            print("Count tracks in playlist: \(playlist.images.count)")
             
             let json = [
                 "uris":["spotify:track:\(track.id)"],

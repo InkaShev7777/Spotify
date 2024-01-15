@@ -36,6 +36,10 @@ class PlayerViewController: UIViewController {
         controlsView.delegate = self
         configureBarButtons()
         configure()
+        DispatchQueue.main.async {
+            print("Time of song now: \(self.dataSource?.fullTime)")
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,8 +57,13 @@ class PlayerViewController: UIViewController {
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
         controlsView.configure(with: PlayerControlsViewViewModel(
             title: dataSource?.songName,
-            subtitle: dataSource?.subtitle)
+            subtitle: dataSource?.subtitle,
+            timeNow: dataSource?.fullTime)
         )
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
     }
     
     private func configureBarButtons() {
@@ -87,10 +96,39 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {
-
+    
+    func getTimeNow() -> Double?{
+        return dataSource?.fullTime
+    }
+    
     func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView) {
         //Play Pause
         delegate?.didTapPlayPause()
+<<<<<<< Updated upstream
+=======
+        self.isPlaying = !self.isPlaying
+        if isPlaying {
+            UIView.animate(withDuration: 0.2) {
+                self.imageView.frame = CGRect(
+                    x: 30,
+                    y: 50,
+                    width: self.view.width-60,
+                    height: self.view.width-50
+                )
+            }
+            
+        }
+        else {
+            UIView.animate(withDuration: 0.2) {
+                self.imageView.frame = CGRect(
+                    x: 40,
+                    y: 60,
+                    width: self.view.width-90,
+                    height: self.view.width-90
+                )
+            }
+        }
+>>>>>>> Stashed changes
     }
     
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView) {

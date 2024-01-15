@@ -93,7 +93,11 @@ class HomeViewController: UIViewController {
                 let vc  = LibraryPlaylistsViewController()
                 vc.selectionHendlet = { playlist in
                     APICaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
+                        //
+                        //  Add Alert
+                        //
                         print("Add to playlist: \(success)")
+                        
                     }
                 }
                 vc.title = "Select Playlist"

@@ -123,7 +123,6 @@ extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSourc
         let vc = AlbumViewController(album: album)
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

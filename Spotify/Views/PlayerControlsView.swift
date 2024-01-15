@@ -19,6 +19,7 @@ protocol PlayerControlsViewDelegate: AnyObject {
 struct PlayerControlsViewViewModel {
     let title: String?
     let subtitle: String?
+    let timeNow: Double?
 }
 
 final class PlayerControlsView: UIView {
@@ -26,6 +27,29 @@ final class PlayerControlsView: UIView {
     
     weak var delegate: PlayerControlsViewDelegate?
     
+<<<<<<< Updated upstream
+=======
+    private let timeLine: UISlider = {
+        let slider = UISlider()
+        slider.maximumValue = 30.0
+        return slider
+    }()
+    
+    private let iconLow: UIImageView = {
+        let icon = UIImageView()
+        icon.image = UIImage(systemName: "speaker.fill")
+        icon.tintColor = .white
+        return icon
+    }()
+    
+    private let iconMax: UIImageView = {
+        let icon = UIImageView()
+        icon.image = UIImage(systemName: "speaker.wave.3.fill")
+        icon.tintColor = .white
+        return icon
+    }()
+    
+>>>>>>> Stashed changes
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.value = 1.0
@@ -167,5 +191,9 @@ final class PlayerControlsView: UIView {
     func configure(with viewModel: PlayerControlsViewViewModel){
         nameLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
+<<<<<<< Updated upstream
+=======
+        timeLine.value = Float(viewModel.timeNow ?? 0.0)
+>>>>>>> Stashed changes
     }
 }

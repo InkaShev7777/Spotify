@@ -13,6 +13,10 @@ protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
     var subtitle: String? { get }
     var imageURL: URL? { get }
+<<<<<<< Updated upstream
+=======
+    var fullTime: Double? { get }
+>>>>>>> Stashed changes
 }
 
 final class PlaybackPresenter {
@@ -43,12 +47,19 @@ final class PlaybackPresenter {
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
     
+<<<<<<< Updated upstream
+=======
+    var fullTimeOfSong: Double?
+    
+    
+>>>>>>> Stashed changes
     func startPlayback(from viewController: UIViewController, track: AudioTrack) {
         guard let url = URL(string: track.preview_url ?? "") else {
             return
         }
         player = AVPlayer(url: url)
         player?.volume = 1.0
+        
         
         self.track = track
         self.tracks = []
@@ -148,7 +159,10 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
 }
 
 extension PlaybackPresenter: PlayerDataSource {
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
     var songName: String? {
         return currentTrack?.name
     }
@@ -161,4 +175,22 @@ extension PlaybackPresenter: PlayerDataSource {
         return URL(string: currentTrack?.album?.images.first?.url ?? "")
     }
     
+<<<<<<< Updated upstream
+=======
+    var fullTime: Double? {
+//        return  Double(player?.currentTime().seconds ?? 0.0)
+//        return CMTime
+//        var secc: Double = 10.0
+//        DispatchQueue.main.async{
+//            guard let currentTime = self.player?.currentItem?.duration else { return }
+//            secc =  Double(currentTime.seconds)
+//        }
+//        return secc
+//        return 12.2
+//        let _fullTime = player?.currentItem?.duration
+//        let secc = _fullTime?.seconds
+//        return secc
+        return 0.0
+    }
+>>>>>>> Stashed changes
 }
