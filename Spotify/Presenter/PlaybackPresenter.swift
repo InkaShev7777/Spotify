@@ -67,6 +67,7 @@ final class PlaybackPresenter {
         
         viewController.present(UINavigationController(rootViewController: vc), animated: true) { [ weak self ] in
             self?.player?.play()
+            self?.updateSlider()
         }
         
         self.playerVC = vc
@@ -74,18 +75,20 @@ final class PlaybackPresenter {
     
     private var timeObserver: Any?
     private var _timeNow: Any?
+    
     func updateSlider() {
         let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
-            guard let currentTime = self.player?.currentTime() else {return}
-            guard let duration = self.player?.currentItem?.duration else {return}
-            
-            let currentTimeInSeccond = CMTimeGetSeconds(currentTime)
-            let durationTimeInSeccond = CMTimeGetSeconds(duration)
-            
-            self._timeNow = Float(currentTimeInSeccond/durationTimeInSeccond)
-            print("TimeLine: \(Float(currentTimeInSeccond/durationTimeInSeccond))")
-        })
+            timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+                guard let currentTime = self.player?.currentTime() else { return }
+                guard let duration = self.player?.currentItem?.duration else { return }
+
+                let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+                let durationTimeInSeconds = CMTimeGetSeconds(duration)
+
+                let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
+                self.playerVC?.controlsView.timeLine.value = progress
+                self.playerVC?.controlsView.getTimeNow()
+            })
     }
     
     func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
@@ -107,6 +110,7 @@ final class PlaybackPresenter {
         }))
         self.playerQueue?.volume = 1.0
         self.playerQueue?.play()
+        self.updateSliderForTracks()
         
         
         let vc = PlayerViewController()
@@ -115,24 +119,36 @@ final class PlaybackPresenter {
         viewController.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
         self.playerVC = vc
     }
+    
+    func updateSliderForTracks() {
+        let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            timeObserver = playerQueue?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+                guard let currentTime = self.playerQueue?.currentTime() else { return }
+                guard let duration = self.playerQueue?.currentItem?.duration else { return }
+
+                let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+                let durationTimeInSeconds = CMTimeGetSeconds(duration)
+
+                let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
+                self.playerVC?.controlsView.timeLine.value = progress
+                self.playerVC?.controlsView.getTimeNow()
+            })
+    }
 }
 
 extension PlaybackPresenter: PlayerViewControllerDelegate {
-    func didSlideTimeLineSlider(_ value: Float) {
-        self.player?.rate = value
+    func playerControlsViewTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
+        // did slide timeline
     }
     
-    func getPlayer() -> AVPlayer? {
-        return self.player
+    func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
+        didSlideSlider(value)
     }
-    
     
     func didSlideSlider(_ value: Float) {
         player?.volume = value
         playerQueue?.volume = value
     }
-    
-
     
     func didTapPlayPause() {
         if let player = player {

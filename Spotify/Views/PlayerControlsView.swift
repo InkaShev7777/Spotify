@@ -28,10 +28,11 @@ final class PlayerControlsView: UIView {
     
     weak var delegate: PlayerControlsViewDelegate?
     
-    private let timeLine: UISlider = {
+    public let timeLine: UISlider = {
         let slider = UISlider()
-        slider.maximumValue = 30.0
+        slider.maximumValue = 0.998
         slider.thumbTintColor = .clear
+        slider.tintColor = .white
         return slider
     }()
     
@@ -165,6 +166,10 @@ final class PlayerControlsView: UIView {
             weight: .regular)
         )
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
+    }
+    
+    func getTimeNow() -> Float {
+        return timeLine.value
     }
     
     override func layoutSubviews() {

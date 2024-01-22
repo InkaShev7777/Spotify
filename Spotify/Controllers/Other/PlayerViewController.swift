@@ -14,7 +14,7 @@ protocol PlayerViewControllerDelegate: AnyObject {
     func didTapForward()
     func didTapBackward()
     func didSlideSlider(_ value: Float)
-    func getPlayer() -> AVPlayer?
+    func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
 class PlayerViewController: UIViewController {
@@ -46,7 +46,7 @@ class PlayerViewController: UIViewController {
         return imageView
     }()
     
-    private let controlsView = PlayerControlsView()
+    public let controlsView = PlayerControlsView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,41 +59,7 @@ class PlayerViewController: UIViewController {
         controlsView.delegate = self
         configureBarButtons()
         configure()
-        
-        self.player =  delegate?.getPlayer()
-        
-        
-//        DispatchQueue.main.async {
-//            print("Time of song now: \(self.dataSource?.fullTime)")
-//        }
-        
     }
-    //
-    // TimeLine
-    //
-    
-//    private var timeObserver: Any? = nil
-//    private func setObserverToPlayer() {
-//        let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-//        timeObserver = self.player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
-//            self.updatePLayerTime()
-//        })
-//    }
-//    
-//    private func updatePLayerTime() {
-//        guard let currentTime = self.player?.currentTime() else {return}
-//        guard let duration = self.player?.currentItem?.duration else {return}
-//        
-//        let currentTimeInSecconds = CMTimeGetSeconds(currentTime)
-//        let durationTimeInSecconds = CMTimeGetSeconds(duration)
-//        
-//        
-//        
-//    }
-    
-    
-    
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -138,10 +104,9 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {
-    func didSlideTimeline(value: Float) {
-        
+    func updateSlider(value: Float) {
+        controlsView.timeLine.value = value
     }
-    
     
     func getTimeNow() -> Double?{
         return dataSource?.fullTime
