@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 class TabBarViewController: UITabBarController {
 
@@ -23,6 +24,7 @@ class TabBarViewController: UITabBarController {
         vcHome.navigationItem.largeTitleDisplayMode = .always
         vcSearch.navigationItem.largeTitleDisplayMode = .always
         vcLibrary.navigationItem.largeTitleDisplayMode = .always
+
         
         let navHome = UINavigationController(rootViewController: vcHome)
         let navSearch = UINavigationController(rootViewController: vcSearch)
@@ -35,6 +37,7 @@ class TabBarViewController: UITabBarController {
         navHome.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 1)
         navSearch.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
         navLibrary.tabBarItem = UITabBarItem(title: "Your Library", image: UIImage(systemName: "books.vertical"), tag: 3)
+        
         
         navHome.navigationBar.prefersLargeTitles = true
         navSearch.navigationBar.prefersLargeTitles = true

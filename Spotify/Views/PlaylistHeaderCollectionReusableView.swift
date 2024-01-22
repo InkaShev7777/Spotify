@@ -83,9 +83,9 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         super.layoutSubviews()
         let imageSize: CGFloat = height/1.5
         imageView.frame = CGRect(x: (width-imageSize)/2, y: 20, width: imageSize, height: imageSize)
-        nameLabel.frame = CGRect(x: 10, y: imageView.bottom, width: width-20, height: 44)
-        descriptonLabel.frame = CGRect(x: 10, y: nameLabel.bottom, width: width-100, height: 44)
-        ownerLabel.frame = CGRect(x: 10, y: descriptonLabel.bottom, width: width-20, height: 44)
+        nameLabel.frame = CGRect(x: 10, y: imageView.bottom-5, width: width-20, height: 44)
+        descriptonLabel.frame = CGRect(x: 10, y: nameLabel.bottom-5, width: width-100, height: 44)
+        ownerLabel.frame = CGRect(x: 10, y: descriptonLabel.bottom-5, width: width-20, height: 44)
         
         playAllButton.frame = CGRect(x: height-75, y: height-80, width: 60, height: 60)
     }

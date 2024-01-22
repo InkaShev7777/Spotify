@@ -7,12 +7,14 @@
 
 import UIKit
 import SDWebImage
+import AVFoundation
 
 protocol PlayerViewControllerDelegate: AnyObject {
     func didTapPlayPause()
     func didTapForward()
     func didTapBackward()
     func didSlideSlider(_ value: Float)
+    func getPlayer() -> AVPlayer?
 }
 
 class PlayerViewController: UIViewController {
@@ -20,9 +22,27 @@ class PlayerViewController: UIViewController {
     weak var dataSource: PlayerDataSource?
     weak var delegate: PlayerViewControllerDelegate?
     
+    private var isPlaying:Bool = true
+    private var player: AVPlayer?
+    
+    private let backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.opacity = 0.6
+        return imageView
+    }()
+    
+    private let blurEffectView: UIVisualEffectView = {
+        let effect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.dark))
+        effect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return effect
+    }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 15
         return imageView
     }()
     
@@ -31,39 +51,71 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        view.addSubview(backgroundImage)
+        view.addSubview(blurEffectView)
         view.addSubview(imageView)
+        imageView.frame = CGRect(x: 30, y: 50, width: view.width-60, height: view.width-50)
         view.addSubview(controlsView)
         controlsView.delegate = self
         configureBarButtons()
         configure()
-        DispatchQueue.main.async {
-            print("Time of song now: \(self.dataSource?.fullTime)")
-        }
+        
+        self.player =  delegate?.getPlayer()
+        
+        
+//        DispatchQueue.main.async {
+//            print("Time of song now: \(self.dataSource?.fullTime)")
+//        }
         
     }
+    //
+    // TimeLine
+    //
+    
+//    private var timeObserver: Any? = nil
+//    private func setObserverToPlayer() {
+//        let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+//        timeObserver = self.player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+//            self.updatePLayerTime()
+//        })
+//    }
+//    
+//    private func updatePLayerTime() {
+//        guard let currentTime = self.player?.currentTime() else {return}
+//        guard let duration = self.player?.currentItem?.duration else {return}
+//        
+//        let currentTimeInSecconds = CMTimeGetSeconds(currentTime)
+//        let durationTimeInSecconds = CMTimeGetSeconds(duration)
+//        
+//        
+//        
+//    }
+    
+    
+    
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        imageView.frame = CGRect(x: 0, y: 50, width: view.width, height: view.width)
+        backgroundImage.frame = view.bounds
+        blurEffectView.frame = view.bounds
         controlsView.frame = CGRect(
             x: 10,
-            y: imageView.bottom+10,
+            y: (view.height/2)+20,
             width: view.width-20,
             height: view.height-imageView.height-view.safeAreaInsets.top-view.safeAreaInsets.bottom-15
         )
     }
     
     private func configure() {
+        backgroundImage.sd_setImage(with: dataSource?.imageURL, completed: nil)
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
         controlsView.configure(with: PlayerControlsViewViewModel(
             title: dataSource?.songName,
             subtitle: dataSource?.subtitle,
             timeNow: dataSource?.fullTime)
         )
-<<<<<<< Updated upstream
-=======
         
->>>>>>> Stashed changes
     }
     
     private func configureBarButtons() {
@@ -73,21 +125,11 @@ class PlayerViewController: UIViewController {
             action: #selector(didTapClose)
         )
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(didTapAction)
-        )
-        
-        navigationController?.navigationBar.tintColor = .darkGray
+        navigationController?.navigationBar.tintColor = .white
     }
     
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func didTapAction() {
-        // Actions
     }
     
     func refreshUI(){
@@ -96,6 +138,10 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {
+    func didSlideTimeline(value: Float) {
+        
+    }
+    
     
     func getTimeNow() -> Double?{
         return dataSource?.fullTime
@@ -104,8 +150,6 @@ extension PlayerViewController: PlayerControlsViewDelegate {
     func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView) {
         //Play Pause
         delegate?.didTapPlayPause()
-<<<<<<< Updated upstream
-=======
         self.isPlaying = !self.isPlaying
         if isPlaying {
             UIView.animate(withDuration: 0.2) {
@@ -128,7 +172,6 @@ extension PlayerViewController: PlayerControlsViewDelegate {
                 )
             }
         }
->>>>>>> Stashed changes
     }
     
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView) {

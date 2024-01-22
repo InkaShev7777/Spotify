@@ -37,6 +37,7 @@ class LibraryPlaylistsViewController: UIViewController {
     }
     
     @objc func didTapClose() {
+        fetchData()
         dismiss(animated: true, completion: nil)
     }
     
@@ -93,16 +94,20 @@ class LibraryPlaylistsViewController: UIViewController {
         alert.addTextField { textFieldName in
             textFieldName.placeholder = "Playlist..."
         }
+        alert.addTextField { textFieldDescription in
+            textFieldDescription.placeholder = "Description..."
+        }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Create", style: .default, handler: {_ in
-            guard let field = alert.textFields?.first,
-                  let textName = field.text,
+            guard let field = alert.textFields,
+                  let textName = field[0].text,
+                  let description = field[1].text,
                   !textName.trimmingCharacters(in: .whitespaces).isEmpty else {
                 return
             }
             
-            APICaller.shared.createPlaylist(with: textName) { [ weak self ] success in
+            APICaller.shared.createPlaylist(with: textName,description: description) { [ weak self ] success in
                 if success {
                     HapticsManager.shared.vibrate(for: .success)
                     //Refresh list of playlists

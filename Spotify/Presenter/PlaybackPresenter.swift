@@ -13,10 +13,7 @@ protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
     var subtitle: String? { get }
     var imageURL: URL? { get }
-<<<<<<< Updated upstream
-=======
     var fullTime: Double? { get }
->>>>>>> Stashed changes
 }
 
 final class PlaybackPresenter {
@@ -25,6 +22,7 @@ final class PlaybackPresenter {
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
+    
     var indexTrackNow = 0
     
     var currentTrack: AudioTrack? {
@@ -32,10 +30,6 @@ final class PlaybackPresenter {
             return track
         }
         else if let player = self.playerQueue, !tracks.isEmpty {
-//            let items = player.items()
-//            guard let index = items.firstIndex(where: { $0 == player.currentItem }) else {
-//                return nil
-//            }
             return tracks[indexTrackNow]
         }
         
@@ -47,13 +41,16 @@ final class PlaybackPresenter {
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer?
     
-<<<<<<< Updated upstream
-=======
     var fullTimeOfSong: Double?
     
     
->>>>>>> Stashed changes
     func startPlayback(from viewController: UIViewController, track: AudioTrack) {
+        if let tempPlayer = playerQueue{
+            if tempPlayer.timeControlStatus == .playing{
+                tempPlayer.pause()
+            }
+        }
+        playerQueue = nil
         guard let url = URL(string: track.preview_url ?? "") else {
             return
         }
@@ -71,10 +68,33 @@ final class PlaybackPresenter {
         viewController.present(UINavigationController(rootViewController: vc), animated: true) { [ weak self ] in
             self?.player?.play()
         }
+        
         self.playerVC = vc
     }
     
+    private var timeObserver: Any?
+    private var _timeNow: Any?
+    func updateSlider() {
+        let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+            guard let currentTime = self.player?.currentTime() else {return}
+            guard let duration = self.player?.currentItem?.duration else {return}
+            
+            let currentTimeInSeccond = CMTimeGetSeconds(currentTime)
+            let durationTimeInSeccond = CMTimeGetSeconds(duration)
+            
+            self._timeNow = Float(currentTimeInSeccond/durationTimeInSeccond)
+            print("TimeLine: \(Float(currentTimeInSeccond/durationTimeInSeccond))")
+        })
+    }
+    
     func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
+        if let tempPlayer = player{
+            if tempPlayer.timeControlStatus == .playing{
+                tempPlayer.pause()
+            }
+        }
+        player = nil
         indexTrackNow = 0
         self.tracks = tracks
         self.track = nil
@@ -88,6 +108,7 @@ final class PlaybackPresenter {
         self.playerQueue?.volume = 1.0
         self.playerQueue?.play()
         
+        
         let vc = PlayerViewController()
         vc.dataSource = self
         vc.delegate = self
@@ -97,11 +118,21 @@ final class PlaybackPresenter {
 }
 
 extension PlaybackPresenter: PlayerViewControllerDelegate {
+    func didSlideTimeLineSlider(_ value: Float) {
+        self.player?.rate = value
+    }
+    
+    func getPlayer() -> AVPlayer? {
+        return self.player
+    }
+    
     
     func didSlideSlider(_ value: Float) {
         player?.volume = value
         playerQueue?.volume = value
     }
+    
+
     
     func didTapPlayPause() {
         if let player = player {
@@ -124,7 +155,6 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
     
     func didTapForward() {
         if tracks.isEmpty{
-            // Not playlist or album
             player?.pause()
         }
         else if let player = playerQueue {
@@ -159,10 +189,6 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
 }
 
 extension PlaybackPresenter: PlayerDataSource {
-<<<<<<< Updated upstream
-    
-=======
->>>>>>> Stashed changes
     var songName: String? {
         return currentTrack?.name
     }
@@ -175,8 +201,6 @@ extension PlaybackPresenter: PlayerDataSource {
         return URL(string: currentTrack?.album?.images.first?.url ?? "")
     }
     
-<<<<<<< Updated upstream
-=======
     var fullTime: Double? {
 //        return  Double(player?.currentTime().seconds ?? 0.0)
 //        return CMTime
@@ -192,5 +216,4 @@ extension PlaybackPresenter: PlayerDataSource {
 //        return secc
         return 0.0
     }
->>>>>>> Stashed changes
 }

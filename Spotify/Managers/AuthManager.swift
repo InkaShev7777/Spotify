@@ -15,7 +15,7 @@ final class AuthManager{
         static let clientSecret = "d5ae0edbd3294cceb073c7f61a0f1705"
         static let tokenAPIURL = "https://accounts.spotify.com/api/token"
         static let redirect_uri = "https://www.iosacademy.io"
-        static let scopes = "user-read-private%20playlist-modify-private%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
+        static let scopes = "user-read-private%20playlist-modify-private%20playlist-read-private%20playlist-modify-public%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
     }
     
     private init(){}
@@ -47,7 +47,7 @@ final class AuthManager{
             return false
         }
         let currentDate = Date()
-        let fiveMinutes: TimeInterval = 60
+        let fiveMinutes: TimeInterval = 300
         return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
     
@@ -72,7 +72,6 @@ final class AuthManager{
         let basicToken = Constants.clientID + ":" + Constants.clientSecret
         let data = basicToken.data(using: .utf8)
         guard let base64String = data?.base64EncodedString() else {
-            print("Failure to get base64")
             completion(false)
             return
         }

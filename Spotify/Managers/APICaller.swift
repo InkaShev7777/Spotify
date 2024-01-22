@@ -310,6 +310,8 @@ final class APICaller {
         }
     }
     
+    //MARK: - User
+    
     public func getCurrentUserPlaylists(completion: @escaping (Result<[Playlist], Error>) -> Void) {
         createRequest(with: URL(string: Constens.baseAPIURL + "/me/playlists/?limit=50"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -329,7 +331,7 @@ final class APICaller {
         }
     }
     
-    public func createPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
+    public func createPlaylist(with name: String,description description: String, completion: @escaping (Bool) -> Void) {
         getCurrentUserProfile { [ weak self ] result in
             switch result {
             case .success(let profile):
@@ -339,7 +341,7 @@ final class APICaller {
                     var request = baseRequest
                     let json = [
                         "name": name,
-                        "description": "My new Playlist",
+                        "description": description,
                         "public": false
                     ]
                     request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)

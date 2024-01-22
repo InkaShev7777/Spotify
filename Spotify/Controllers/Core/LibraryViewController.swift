@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LibraryViewController: UIViewController {
+class LibraryViewController: UIViewController, UINavigationControllerDelegate {
     
     private let playlistsVC = LibraryPlaylistsViewController()
     private let albumsVC = LibraryAlbumsViewController()

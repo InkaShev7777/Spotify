@@ -46,7 +46,6 @@ class AuthViewController: UIViewController,WKNavigationDelegate {
         else {
             return
         }
-        print("Code: \(code)")
         
         AuthManager.shared.exchangeCodeForToken(code: code, completion: {[weak self] success in
             DispatchQueue.main.async {

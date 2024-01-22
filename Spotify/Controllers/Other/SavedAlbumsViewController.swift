@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol SavedAlbumsViewControllerDelegate: AnyObject {
+    func savedAlbumsViewControllerDidDeleteAlbum(_ viewController: SavedAlbumsViewController)
+}
+
 class SavedAlbumsViewController: UIViewController {
+    
+    weak var delegate: SavedAlbumsViewControllerDelegate?
     
     private let collectionView = UICollectionView(
         frame: .zero,
@@ -52,7 +58,7 @@ class SavedAlbumsViewController: UIViewController {
     private var viewModels = [AlbumCollectionViewCellViewModel]()
     private var tracks = [AudioTrack]()
 
-    private let album: Album
+    public let album: Album
     
     init(album: Album) {
         self.album = album
@@ -100,16 +106,12 @@ class SavedAlbumsViewController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-            APICaller.shared.deleteAlbum(album: strongSelf.album) { result in
-                DispatchQueue.main.async {
-                    if result {
-                        strongSelf.navigationController?.popViewController(animated: true)
-                    }
-                    else {
-                        
-                    }
-                }
+
+            DispatchQueue.main.async {
+                strongSelf.delegate?.savedAlbumsViewControllerDidDeleteAlbum(strongSelf)
+                strongSelf.navigationController?.popViewController(animated: true)
             }
+            
         }))
         
         present(actionSheet, animated: true)

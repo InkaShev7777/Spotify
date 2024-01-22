@@ -41,19 +41,10 @@ class LibraryToggleView: UIView {
         return button
     }()
     
-    private let indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGreen
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 2
-        return view
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(playlistButton)
         addSubview(albumsButton)
-//        addSubview(indicatorView)
         playlistButton.addTarget(self, action: #selector(didTapPlaylists), for: .touchUpInside)
         albumsButton.addTarget(self, action: #selector(didTapAlbums), for: .touchUpInside)
     }

@@ -50,11 +50,19 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         title = "Browse"
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettings))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(
+                systemName: "person.crop.circle.fill"
+            ),
+            style: .done,
+            target: self,
+            action: #selector(didTapSettings)
+        )
+        fetchData()
         configureCollectionView()
         view.addSubview(spinner)
-        fetchData()
         addLongTapGester()
+        collectionView.reloadData()
     }
     
     
@@ -93,11 +101,19 @@ class HomeViewController: UIViewController {
                 let vc  = LibraryPlaylistsViewController()
                 vc.selectionHendlet = { playlist in
                     APICaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
-                        //
-                        //  Add Alert
-                        //
-                        print("Add to playlist: \(success)")
                         
+                        if success {
+                            let okAction = UIAlertAction(title: "OK", style: .cancel)
+                            let alert = UIAlertController(title: "Information", message: "Song added to playlist!", preferredStyle: .alert)
+                            alert.addAction(okAction)
+                            self?.present(alert, animated: true)
+                        }
+                        else {
+                            let okAction = UIAlertAction(title: "Cancel", style: .destructive)
+                            let alert = UIAlertController(title: "Information", message: "Song not added to playlist!", preferredStyle: .alert)
+                            alert.addAction(okAction)
+                            self?.present(alert, animated: true)
+                        }
                     }
                 }
                 vc.title = "Select Playlist"
@@ -292,7 +308,6 @@ class HomeViewController: UIViewController {
                 playLists: playlists
             )
         }
-
     }
     
     private func configureModels(
@@ -335,7 +350,6 @@ class HomeViewController: UIViewController {
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
-    
 }
 
 
@@ -431,18 +445,29 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch section {
         case 0:
             //Item
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
             )
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             //Group
-            let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(390)),
-                                                                 subitem: item,
-                                                                 count: 3)
+            let verticalGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(390)),
+                subitem: item,
+                count: 3)
             
             
-            let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(390)),
-                                                                     subitem: verticalGroup,
-                                                                     count: 1)
+            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.9),
+                    heightDimension: .absolute(390)),
+                subitem: verticalGroup,
+                count: 1
+            )
             //Section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging

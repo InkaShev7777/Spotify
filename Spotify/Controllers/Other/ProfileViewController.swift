@@ -54,7 +54,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         // coonfig table models
         models.append("Full Name: \(model.display_name)")
         models.append("Email Address: \(model.email)")
-        models.append("User ID: \(model.id)")
         models.append("Plan: \(model.product)")
         if model.images.first?.url == nil{
             createTableHeader(with: baseImageUser)

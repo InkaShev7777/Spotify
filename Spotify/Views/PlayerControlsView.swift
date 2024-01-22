@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 protocol PlayerControlsViewDelegate: AnyObject {
     
@@ -27,11 +28,10 @@ final class PlayerControlsView: UIView {
     
     weak var delegate: PlayerControlsViewDelegate?
     
-<<<<<<< Updated upstream
-=======
     private let timeLine: UISlider = {
         let slider = UISlider()
         slider.maximumValue = 30.0
+        slider.thumbTintColor = .clear
         return slider
     }()
     
@@ -49,10 +49,12 @@ final class PlayerControlsView: UIView {
         return icon
     }()
     
->>>>>>> Stashed changes
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.value = 1.0
+        slider.tintColor = .white
+        slider.thumbTintColor = .clear
+        slider.maximumValue = 1.0
         return slider
     }()
     
@@ -60,7 +62,8 @@ final class PlayerControlsView: UIView {
         let label = UILabel()
         label.text = "namelabel"
         label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = .systemFont(ofSize: 30, weight: .semibold)
+        label.textColor = .white
         return label
     }()
     
@@ -69,14 +72,14 @@ final class PlayerControlsView: UIView {
         label.text = "subtitlelabel"
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.textColor = .systemGray
         return label
     }()
     
     private let backButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
-        let image = UIImage(systemName: "backward.end.fill", withConfiguration: UIImage.SymbolConfiguration(
+        button.tintColor = .white
+        let image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(
             pointSize: 34,
             weight: .regular)
         )
@@ -86,8 +89,8 @@ final class PlayerControlsView: UIView {
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
-        let image = UIImage(systemName: "forward.end.fill", withConfiguration: UIImage.SymbolConfiguration(
+        button.tintColor = .white
+        let image = UIImage(systemName: "forward.fill", withConfiguration: UIImage.SymbolConfiguration(
             pointSize: 34,
             weight: .regular)
         )
@@ -97,9 +100,9 @@ final class PlayerControlsView: UIView {
     
     private let playPauseButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .label
-        let image = UIImage(systemName: "pause.circle.fill", withConfiguration: UIImage.SymbolConfiguration(
-            pointSize: 64,
+        button.tintColor = .white
+        let image = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 54,
             weight: .regular)
         )
         button.setImage(image, for: .normal)
@@ -112,11 +115,15 @@ final class PlayerControlsView: UIView {
         addSubview(nameLabel)
         addSubview(subtitleLabel)
         
+        addSubview(timeLine)
+        
         addSubview(backButton)
         addSubview(playPauseButton)
         addSubview(nextButton)
         
+        addSubview(iconLow)
         addSubview(volumeSlider)
+        addSubview(iconMax)
         volumeSlider.addTarget(self, action: #selector(didSlideSlider(_:)), for: .valueChanged)
         
         // Tap Button
@@ -148,13 +155,13 @@ final class PlayerControlsView: UIView {
         delegate?.playerControlsViewDidTapPlayPauseButton(self)
         
         // Update icon
-        let pause = UIImage(systemName: "pause.circle.fill", withConfiguration: UIImage.SymbolConfiguration(
-            pointSize: 64,
+        let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 54,
             weight: .regular)
         )
         
-        let play = UIImage(systemName: "play.circle.fill", withConfiguration: UIImage.SymbolConfiguration(
-            pointSize: 64,
+        let play = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 54,
             weight: .regular)
         )
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
@@ -163,14 +170,17 @@ final class PlayerControlsView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         nameLabel.frame = CGRect(x: 10, y: 0, width: width, height: 50)
-        subtitleLabel.frame = CGRect(x: 10, y: nameLabel.bottom, width: width, height: 50)
+        subtitleLabel.frame = CGRect(x: 10, y: nameLabel.bottom-20, width: width, height: 50)
         
-        volumeSlider.frame = CGRect(x: 10, y: playPauseButton.bottom+40, width: width-20, height: 44)
+        timeLine.frame = CGRect(x: 10, y: subtitleLabel.bottom+10, width: width-20, height: 44)
         
+        volumeSlider.frame = CGRect(x: 35, y: playPauseButton.bottom+40, width: width-70, height: 44)
+        iconLow.frame = CGRect(x: volumeSlider.left-20, y: playPauseButton.bottom+50, width: 20, height: 20)
+        iconMax.frame = CGRect(x: volumeSlider.right+5, y: playPauseButton.bottom+50, width: 25, height: 20)
         let buttonSize: CGFloat = 60
         playPauseButton.frame = CGRect(
             x: (width - buttonSize)/2,
-            y: subtitleLabel.bottom + 30,
+            y: timeLine.bottom + 30,
             width: buttonSize,
             height: buttonSize
         )
@@ -191,9 +201,6 @@ final class PlayerControlsView: UIView {
     func configure(with viewModel: PlayerControlsViewViewModel){
         nameLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
-<<<<<<< Updated upstream
-=======
         timeLine.value = Float(viewModel.timeNow ?? 0.0)
->>>>>>> Stashed changes
     }
 }
