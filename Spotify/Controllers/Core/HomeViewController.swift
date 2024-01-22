@@ -58,12 +58,16 @@ class HomeViewController: UIViewController {
             target: self,
             action: #selector(didTapSettings)
         )
-        fetchData()
         configureCollectionView()
         view.addSubview(spinner)
         addLongTapGester()
-        collectionView.reloadData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData()
+    }
+
     
     
     override func viewDidLayoutSubviews() {
