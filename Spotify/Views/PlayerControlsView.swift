@@ -15,6 +15,7 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
     func playerControlsViewDidTapBackwordButton(_ playerControlsView: PlayerControlsView)
     func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
+    func playerControlsViewTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
 struct PlayerControlsViewViewModel {
@@ -125,7 +126,10 @@ final class PlayerControlsView: UIView {
         addSubview(iconLow)
         addSubview(volumeSlider)
         addSubview(iconMax)
+        
+        //Slide sliders
         volumeSlider.addTarget(self, action: #selector(didSlideSlider(_:)), for: .valueChanged)
+        timeLine.addTarget(self, action: #selector(didSlideTimeline(_:)), for: .valueChanged)
         
         // Tap Button
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
@@ -141,6 +145,10 @@ final class PlayerControlsView: UIView {
     
     @objc func didSlideSlider(_ slider: UISlider) {
         delegate?.playerControlsView(self, didSlideSlider: slider.value)
+    }
+    @objc func didSlideTimeline(_ slider: UISlider) {
+        // did slide
+        delegate?.playerControlsViewTimeline(self, didSlideSlider: timeLine.value)
     }
     
     @objc private func didTapBack(){

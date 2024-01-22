@@ -87,7 +87,6 @@ final class PlaybackPresenter {
 
                 let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
                 self.playerVC?.controlsView.timeLine.value = progress
-                self.playerVC?.controlsView.getTimeNow()
             })
     }
     
@@ -137,8 +136,32 @@ final class PlaybackPresenter {
 }
 
 extension PlaybackPresenter: PlayerViewControllerDelegate {
-    func playerControlsViewTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
-        // did slide timeline
+    // Did slide timeline slider
+    func didSlideTimeline(_ value: Float) {
+        if player?.timeControlStatus ==  .playing {
+            guard let player = player else {
+                return
+            }
+            guard let duration = self.player?.currentItem?.duration else { return }
+            let valueNow = value * Float(CMTimeGetSeconds(duration))
+            
+            if valueNow.isNaN == false {
+                let seekTime = CMTime(value: CMTimeValue(valueNow), timescale: 1)
+                player.seek(to: seekTime)
+            }
+        }
+        else if playerQueue?.timeControlStatus == .playing {
+            guard let player = playerQueue else {
+                return
+            }
+            guard let duration = self.playerQueue?.currentItem?.duration else { return }
+            let valueNow = value * Float(CMTimeGetSeconds(duration))
+            
+            if valueNow.isNaN == false {
+                let seekTime = CMTime(value: CMTimeValue(valueNow), timescale: 1)
+                player.seek(to: seekTime)
+            }
+        }
     }
     
     func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {

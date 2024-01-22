@@ -14,7 +14,9 @@ protocol PlayerViewControllerDelegate: AnyObject {
     func didTapForward()
     func didTapBackward()
     func didSlideSlider(_ value: Float)
+    func didSlideTimeline(_ value: Float)
     func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
+//    func playerControlsViewSlideTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
 class PlayerViewController: UIViewController {
@@ -104,12 +106,13 @@ class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {
-    func updateSlider(value: Float) {
-        controlsView.timeLine.value = value
+    func playerControlsViewTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
+        delegate?.didSlideTimeline(value)
     }
     
-    func getTimeNow() -> Double?{
-        return dataSource?.fullTime
+    // Update Timeline
+    func updateSlider(value: Float) {
+        controlsView.timeLine.value = value
     }
     
     func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView) {
@@ -148,7 +151,7 @@ extension PlayerViewController: PlayerControlsViewDelegate {
         //Backward
         delegate?.didTapBackward()
     }
-    
+    // Did Slide Slider Volume
     func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
         delegate?.didSlideSlider(value)
     }
