@@ -13,7 +13,6 @@ protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
     var subtitle: String? { get }
     var imageURL: URL? { get }
-    var fullTime: Double? { get }
 }
 
 final class PlaybackPresenter {
@@ -130,7 +129,6 @@ final class PlaybackPresenter {
 
                 let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
                 self.playerVC?.controlsView.timeLine.value = progress
-                self.playerVC?.controlsView.getTimeNow()
             })
     }
 }
@@ -227,6 +225,27 @@ extension PlaybackPresenter: PlayerViewControllerDelegate {
     }
 }
 
+extension PlaybackPresenter: MiniPlayerViewControllerDelegate {
+    func didPlayPause() {
+        if let player = player {
+            if player.timeControlStatus == .playing {
+                player.pause()
+            }
+            else if player.timeControlStatus == .paused{
+                player.play()
+            }
+        }
+        else if let player = playerQueue {
+            if player.timeControlStatus == .playing {
+                player.pause()
+            }
+            else if player.timeControlStatus == .paused{
+                player.play()
+            }
+        }
+    }
+}
+
 extension PlaybackPresenter: PlayerDataSource {
     var songName: String? {
         return currentTrack?.name
@@ -238,21 +257,5 @@ extension PlaybackPresenter: PlayerDataSource {
     
     var imageURL: URL? {
         return URL(string: currentTrack?.album?.images.first?.url ?? "")
-    }
-    
-    var fullTime: Double? {
-//        return  Double(player?.currentTime().seconds ?? 0.0)
-//        return CMTime
-//        var secc: Double = 10.0
-//        DispatchQueue.main.async{
-//            guard let currentTime = self.player?.currentItem?.duration else { return }
-//            secc =  Double(currentTime.seconds)
-//        }
-//        return secc
-//        return 12.2
-//        let _fullTime = player?.currentItem?.duration
-//        let secc = _fullTime?.seconds
-//        return secc
-        return 0.0
     }
 }

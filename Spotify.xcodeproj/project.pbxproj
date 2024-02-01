@@ -72,6 +72,7 @@
 		C1EB1B532B3CB32C003BE28F /* AllCategoriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB1B522B3CB32C003BE28F /* AllCategoriesResponse.swift */; };
 		C1EB1B552B3CB9A2003BE28F /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB1B542B3CB9A2003BE28F /* CategoryCollectionViewCellViewModel.swift */; };
 		C1EB1B572B3CC097003BE28F /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB1B562B3CC097003BE28F /* CategoryViewController.swift */; };
+		C1F65C1C2B691D3C00594F37 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F65C1B2B691D3C00594F37 /* MiniPlayerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,6 +141,7 @@
 		C1EB1B522B3CB32C003BE28F /* AllCategoriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesResponse.swift; sourceTree = "<group>"; };
 		C1EB1B542B3CB9A2003BE28F /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		C1EB1B562B3CC097003BE28F /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		C1F65C1B2B691D3C00594F37 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +296,7 @@
 				C16A7F6B2B3B2BB10015C217 /* PlaylistViewController.swift */,
 				C1EB1B562B3CC097003BE28F /* CategoryViewController.swift */,
 				C16209832B52BE2800E5DD06 /* SavedAlbumsViewController.swift */,
+				C1F65C1B2B691D3C00594F37 /* MiniPlayerViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				C16A7F702B3B362A0015C217 /* PlaylistDetailsResponse.swift in Sources */,
 				C14062532B3456A200ADE9FC /* AuthManager.swift in Sources */,
 				C14062512B34565C00ADE9FC /* SearchResultsViewController.swift in Sources */,
+				C1F65C1C2B691D3C00594F37 /* MiniPlayerViewController.swift in Sources */,
 				C112AD332B46CFD6007B6FAA /* LibraryToggleView.swift in Sources */,
 				C16A7F622B3ADFA40015C217 /* NewReleasesCellViewModel.swift in Sources */,
 				C115F9A82B3C7DB900C939E3 /* AlbumCollectionViewCellViewModel.swift in Sources */,

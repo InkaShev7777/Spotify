@@ -24,7 +24,7 @@ enum BrowsSectionType {
     }
 }
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController{
     
     private var newAlbums: [Album] = []
     private var playLists: [Playlist] = []
@@ -46,6 +46,8 @@ class HomeViewController: UIViewController {
     
     private var sections = [BrowsSectionType]()
     
+    private var miniPlayer = MiniPlayerViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Browse"
@@ -59,8 +61,17 @@ class HomeViewController: UIViewController {
             action: #selector(didTapSettings)
         )
         configureCollectionView()
+        configurePlayer()
         view.addSubview(spinner)
+//        miniPlayer.delegate = self
+        addChild(miniPlayer)
+        view.addSubview(miniPlayer.view)
+        miniPlayer.didMove(toParent: self)
         addLongTapGester()
+    }
+    
+    func configurePlayer(){
+        miniPlayer.view.frame = CGRect(x: 10, y: view.bottom-146, width: view.width-20, height: 60)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -523,5 +534,4 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return section
         }
     }
-    
 }

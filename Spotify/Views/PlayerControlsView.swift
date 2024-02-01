@@ -21,7 +21,6 @@ protocol PlayerControlsViewDelegate: AnyObject {
 struct PlayerControlsViewViewModel {
     let title: String?
     let subtitle: String?
-    let timeNow: Double?
 }
 
 final class PlayerControlsView: UIView {
@@ -176,10 +175,6 @@ final class PlayerControlsView: UIView {
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
     }
     
-    func getTimeNow() -> Float {
-        return timeLine.value
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         nameLabel.frame = CGRect(x: 10, y: 0, width: width, height: 50)
@@ -214,6 +209,5 @@ final class PlayerControlsView: UIView {
     func configure(with viewModel: PlayerControlsViewViewModel){
         nameLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
-        timeLine.value = Float(viewModel.timeNow ?? 0.0)
     }
 }

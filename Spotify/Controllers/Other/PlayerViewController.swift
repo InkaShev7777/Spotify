@@ -16,7 +16,6 @@ protocol PlayerViewControllerDelegate: AnyObject {
     func didSlideSlider(_ value: Float)
     func didSlideTimeline(_ value: Float)
     func playerControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
-//    func playerControlsViewSlideTimeline(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
 class PlayerViewController: UIViewController {
@@ -75,13 +74,23 @@ class PlayerViewController: UIViewController {
         )
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        showMiniPlayer()
+    }
+    
+    func showMiniPlayer() {
+        let miniPlayerVC = MiniPlayerViewController()
+        present(miniPlayerVC, animated: true, completion: nil)
+    }
+    
     private func configure() {
         backgroundImage.sd_setImage(with: dataSource?.imageURL, completed: nil)
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
         controlsView.configure(with: PlayerControlsViewViewModel(
             title: dataSource?.songName,
-            subtitle: dataSource?.subtitle,
-            timeNow: dataSource?.fullTime)
+            subtitle: dataSource?.subtitle)
         )
         
     }
@@ -96,7 +105,7 @@ class PlayerViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
     
-    @objc private func didTapClose() {
+    @objc internal func didTapClose() {
         dismiss(animated: true, completion: nil)
     }
     
