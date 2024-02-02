@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 protocol PlayerDataSource: AnyObject {
     var songName: String? { get }
@@ -77,16 +78,16 @@ final class PlaybackPresenter {
     
     func updateSlider() {
         let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
-                guard let currentTime = self.player?.currentTime() else { return }
-                guard let duration = self.player?.currentItem?.duration else { return }
-
-                let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
-                let durationTimeInSeconds = CMTimeGetSeconds(duration)
-
-                let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
-                self.playerVC?.controlsView.timeLine.value = progress
-            })
+        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+            guard let currentTime = self.player?.currentTime() else { return }
+            guard let duration = self.player?.currentItem?.duration else { return }
+            
+            let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+            let durationTimeInSeconds = CMTimeGetSeconds(duration)
+            
+            let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
+            self.playerVC?.controlsView.timeLine.value = progress
+        })
     }
     
     func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
@@ -109,6 +110,7 @@ final class PlaybackPresenter {
         self.playerQueue?.volume = 1.0
         self.playerQueue?.play()
         self.updateSliderForTracks()
+        setupNowPlayingInfo()
         
         
         let vc = PlayerViewController()
@@ -118,19 +120,56 @@ final class PlaybackPresenter {
         self.playerVC = vc
     }
     
+    func openMainPlayer(from viewController: UIViewController){
+        let vc = PlayerViewController()
+        vc.dataSource = self
+        vc.delegate = self
+        viewController.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        self.playerVC = vc
+    }
+    
+    func isPlayingNow() -> Bool {
+        
+        if player?.timeControlStatus == .playing {
+            return true
+        }
+        return false
+    }
+    
     func updateSliderForTracks() {
         let interval = CMTime(seconds: 0.3, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            timeObserver = playerQueue?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
-                guard let currentTime = self.playerQueue?.currentTime() else { return }
-                guard let duration = self.playerQueue?.currentItem?.duration else { return }
-
-                let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
-                let durationTimeInSeconds = CMTimeGetSeconds(duration)
-
-                let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
-                self.playerVC?.controlsView.timeLine.value = progress
-            })
+        timeObserver = playerQueue?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { elapsed in
+            guard let currentTime = self.playerQueue?.currentTime() else { return }
+            guard let duration = self.playerQueue?.currentItem?.duration else { return }
+            
+            let currentTimeInSeconds = CMTimeGetSeconds(currentTime)
+            let durationTimeInSeconds = CMTimeGetSeconds(duration)
+            
+            let progress = Float(currentTimeInSeconds / durationTimeInSeconds)
+            self.playerVC?.controlsView.timeLine.value = progress
+            
+            let correctCurentTimeInSeconds = round(currentTimeInSeconds * 10) / 10
+            let correctDurationTimeInSeconds = round(durationTimeInSeconds * 10) / 10
+            
+            if correctCurentTimeInSeconds == correctDurationTimeInSeconds - 0.1 {
+                self.didTapForward()
+            }
+        })
     }
+    
+    //
+    //  ???
+    //
+    
+    func setupNowPlayingInfo() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [.mixWithOthers, .allowAirPlay, .interruptSpokenAudioAndMixWithOthers])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Error setting up audio session: \(error.localizedDescription), code: \(error)")
+        }
+    }
+    
 }
 
 extension PlaybackPresenter: PlayerViewControllerDelegate {

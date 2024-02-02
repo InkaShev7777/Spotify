@@ -47,7 +47,7 @@ class PlayerViewController: UIViewController {
         return imageView
     }()
     
-    public let controlsView = PlayerControlsView()
+    public var controlsView = PlayerControlsView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,17 +74,6 @@ class PlayerViewController: UIViewController {
         )
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        showMiniPlayer()
-    }
-    
-    func showMiniPlayer() {
-        let miniPlayerVC = MiniPlayerViewController()
-        present(miniPlayerVC, animated: true, completion: nil)
-    }
-    
     private func configure() {
         backgroundImage.sd_setImage(with: dataSource?.imageURL, completed: nil)
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
@@ -106,6 +95,7 @@ class PlayerViewController: UIViewController {
     }
     
     @objc internal func didTapClose() {
+        
         dismiss(animated: true, completion: nil)
     }
     

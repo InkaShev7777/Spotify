@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
+import MediaPlayer
 
 protocol PlayerControlsViewDelegate: AnyObject {
     

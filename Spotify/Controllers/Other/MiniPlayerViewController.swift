@@ -16,8 +16,11 @@ class MiniPlayerViewController: UIViewController {
     
     let playbackPresenter = PlaybackPresenter.shared
     
+    weak var dataSource: PlayerDataSource?
+    
     private var timer: Timer?
     private var isPlay:Bool = true
+    
     
     private let image: UIImageView = {
         let image = UIImageView()
@@ -58,6 +61,7 @@ class MiniPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImage)))
         view.isHidden = true
         view.backgroundColor = .systemGray
         view.layer.cornerRadius = 12
@@ -69,6 +73,10 @@ class MiniPlayerViewController: UIViewController {
         view.addSubview(buttonNext)
         startTimer()
         configure()
+    }
+    
+    @objc func didTapImage(){
+        playbackPresenter.openMainPlayer(from: self)
     }
     
     @objc internal func didTapPlayPause() {
@@ -103,7 +111,6 @@ class MiniPlayerViewController: UIViewController {
     
     @objc private func updateData() {
         if playbackPresenter.imageURL != nil {
-//            stopTimer()
             configure()
             view.isHidden = false
         }
@@ -122,7 +129,11 @@ class MiniPlayerViewController: UIViewController {
         buttonNext.frame = CGRect(x: buttonPlayPause.right+5, y: 14, width: 30, height: 30)
     }
     func configure(){
-        image.sd_setImage(with: playbackPresenter.imageURL)
+        image.sd_setImage(with:playbackPresenter.imageURL)
         titleLabele.text = playbackPresenter.songName
+    }
+    
+    public func refreshUI(){
+        configure()
     }
 }

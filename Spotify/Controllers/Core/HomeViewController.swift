@@ -63,7 +63,6 @@ class HomeViewController: UIViewController{
         configureCollectionView()
         configurePlayer()
         view.addSubview(spinner)
-//        miniPlayer.delegate = self
         addChild(miniPlayer)
         view.addSubview(miniPlayer.view)
         miniPlayer.didMove(toParent: self)
@@ -73,18 +72,11 @@ class HomeViewController: UIViewController{
     func configurePlayer(){
         miniPlayer.view.frame = CGRect(x: 10, y: view.bottom-146, width: view.width-20, height: 60)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        fetchData()
-    }
 
-    
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
-        
+        fetchData()
     }
     
     private func addLongTapGester() {
