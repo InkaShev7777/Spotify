@@ -19,5 +19,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSAudioAlwaysUsageDescription</key>
+	<string>We need access to your audio to play music.</string>
 </dict>
 </plist>

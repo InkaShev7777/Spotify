@@ -26,6 +26,8 @@ struct PlayerControlsViewViewModel {
 
 final class PlayerControlsView: UIView {
     private var isPlaying = true
+    private var timer: Timer?
+    let playbackPresenter = PlaybackPresenter.shared
     
     weak var delegate: PlayerControlsViewDelegate?
     
@@ -137,6 +139,8 @@ final class PlayerControlsView: UIView {
         playPauseButton.addTarget(self, action: #selector(didTapPlayPause), for: .touchUpInside)
         
         clipsToBounds = true
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkStatePlayPauseButton), userInfo: nil, repeats: true)
     }
     
     required init?(coder: NSCoder) {
@@ -160,8 +164,9 @@ final class PlayerControlsView: UIView {
     }
     
     @objc private func didTapPlayPause(){
-        self.isPlaying = !isPlaying
+        self.isPlaying = !playbackPresenter.GetIsPlayingNow()
         delegate?.playerControlsViewDidTapPlayPauseButton(self)
+        playbackPresenter.setStatePlaying(isPlay: isPlaying)
         
         // Update icon
         let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
@@ -174,6 +179,18 @@ final class PlayerControlsView: UIView {
             weight: .regular)
         )
         playPauseButton.setImage(isPlaying ? pause : play, for: .normal)
+    }
+    @objc private func checkStatePlayPauseButton(){
+        let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 54,
+            weight: .regular)
+        )
+        
+        let play = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 54,
+            weight: .regular)
+        )
+        playPauseButton.setImage(playbackPresenter.GetIsPlayingNow() ? pause : play, for: .normal)
     }
     
     override func layoutSubviews() {

@@ -60,6 +60,9 @@ class HomeViewController: UIViewController{
             target: self,
             action: #selector(didTapSettings)
         )
+        Task{
+             fetchData()
+        }
         configureCollectionView()
         configurePlayer()
         view.addSubview(spinner)
@@ -76,7 +79,6 @@ class HomeViewController: UIViewController{
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
-        fetchData()
     }
     
     private func addLongTapGester() {
@@ -246,8 +248,11 @@ class HomeViewController: UIViewController{
         group.enter()
         
         var newReleases: NewReleasesResponse?
+        newReleases = nil
         var featuredPlaylist: FeaturedPlayListsResponse?
+        featuredPlaylist = nil
         var recommendations: RecommendationsResponse?
+        recommendations = nil
         
         //New Releases
         APICaller.shared.getNewReleasses { result in
@@ -305,7 +310,7 @@ class HomeViewController: UIViewController{
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
-//                fatalError("Models are nil")
+                fatalError("Models are nil")
                 return
             }
             

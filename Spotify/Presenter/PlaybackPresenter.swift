@@ -21,6 +21,7 @@ final class PlaybackPresenter {
     
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
+    private var isPlayingNow = true
     
     
     var indexTrackNow = 0
@@ -50,6 +51,7 @@ final class PlaybackPresenter {
                 tempPlayer.pause()
             }
         }
+        isPlayingNow = true
         playerQueue = nil
         guard let url = URL(string: track.preview_url ?? "") else {
             return
@@ -71,6 +73,8 @@ final class PlaybackPresenter {
         }
         
         self.playerVC = vc
+        setupAudioSession()
+        updateNowPlayingInfo()
     }
     
     private var timeObserver: Any?
@@ -96,6 +100,8 @@ final class PlaybackPresenter {
                 tempPlayer.pause()
             }
         }
+        isPlayingNow = true
+        
         player = nil
         indexTrackNow = 0
         self.tracks = tracks
@@ -112,12 +118,26 @@ final class PlaybackPresenter {
         self.updateSliderForTracks()
         setupNowPlayingInfo()
         
-        
         let vc = PlayerViewController()
         vc.dataSource = self
         vc.delegate = self
         viewController.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
         self.playerVC = vc
+    }
+    
+    func setupAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.allowAirPlay, .mixWithOthers])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Error setting up audio session: \(error.localizedDescription)")
+        }
+    }
+    
+    func updateNowPlayingInfo() {
+        var nowPlayingInfo = [String : Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = String(describing: currentTrack?.name)
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
     func openMainPlayer(from viewController: UIViewController){
@@ -128,12 +148,12 @@ final class PlaybackPresenter {
         self.playerVC = vc
     }
     
-    func isPlayingNow() -> Bool {
-        
-        if player?.timeControlStatus == .playing {
-            return true
-        }
-        return false
+    func GetIsPlayingNow() -> Bool {
+        return self.isPlayingNow
+    }
+    
+    func setStatePlaying(isPlay:Bool) {
+        self.isPlayingNow = isPlay
     }
     
     func updateSliderForTracks() {

@@ -81,7 +81,8 @@ class MiniPlayerViewController: UIViewController {
     
     @objc internal func didTapPlayPause() {
         playbackPresenter.didPlayPause()
-        isPlay = !isPlay
+        isPlay = !playbackPresenter.GetIsPlayingNow()
+        playbackPresenter.setStatePlaying(isPlay: isPlay)
         
         // Update icon
         let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
@@ -110,6 +111,18 @@ class MiniPlayerViewController: UIViewController {
     }
     
     @objc private func updateData() {
+        
+        let pause = UIImage(systemName: "pause.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 24,
+            weight: .regular)
+        )
+        
+        let play = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(
+            pointSize: 24,
+            weight: .regular)
+        )
+        buttonPlayPause.setImage(playbackPresenter.GetIsPlayingNow() ? pause : play, for: .normal)
+        
         if playbackPresenter.imageURL != nil {
             configure()
             view.isHidden = false
@@ -125,8 +138,8 @@ class MiniPlayerViewController: UIViewController {
         super.viewDidLayoutSubviews()
         image.layer.frame = CGRect(x: 8, y: 5, width: 50, height: 50)
         titleLabele.layer.frame = CGRect(x: image.right+7, y:8, width: 250, height: 50)
-        buttonPlayPause.frame = CGRect(x: titleLabele.right+5, y: 14, width: 30, height: 30)
-        buttonNext.frame = CGRect(x: buttonPlayPause.right+5, y: 14, width: 30, height: 30)
+        buttonPlayPause.frame = CGRect(x: view.right-80, y: 14, width: 30, height: 30)
+        buttonNext.frame = CGRect(x: view.right-50, y: 14, width: 30, height: 30)
     }
     func configure(){
         image.sd_setImage(with:playbackPresenter.imageURL)
